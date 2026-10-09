@@ -1,0 +1,815 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f47721">
+    <title>Productos | RentNow</title>
+
+    <style>
+        :root {
+            --primary: #f47721;
+            --primary-dark: #d95e10;
+            --primary-light: #fff0e5;
+            --background: #f7f8fa;
+            --text: #202124;
+            --muted: #777d87;
+            --border: #e8e9ed;
+            --white: #ffffff;
+            --success: #19733b;
+            --success-bg: #e5f7eb;
+            --danger: #b42318;
+            --danger-bg: #ffe8e8;
+            --shadow: 0 5px 20px rgba(32, 33, 36, 0.06);
+            --shadow-hover: 0 12px 28px rgba(32, 33, 36, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* NAVEGACIÓN */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 17px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .publish-btn {
+            background: var(--primary);
+            color: white !important;
+            padding: 11px 17px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(244, 119, 33, 0.16);
+        }
+
+        .publish-btn:hover,
+        .search-bar button:hover,
+        .rent-btn:hover {
+            background: var(--primary-dark);
+            color: white !important;
+        }
+
+        /* PERFIL DEL USUARIO */
+        .user-profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: white;
+            color: var(--text);
+        }
+
+        .user-icon {
+            font-size: 20px;
+        }
+
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 13px;
+            border: 1px solid #f3c4ad;
+            border-radius: 9px;
+            color: #c94e28 !important;
+            background: #fff7f2;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #ffe8dc;
+        }
+
+        /* CONTENIDO */
+        .container {
+            max-width: 1450px;
+            margin: auto;
+            padding: 42px 6%;
+        }
+
+        .page-heading {
+            margin-bottom: 27px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(27px, 3vw, 36px);
+            letter-spacing: -0.8px;
+            margin-bottom: 9px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 700px;
+            font-size: 15px;
+        }
+
+        /* BUSCADOR */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 0;
+            padding: 15px 18px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(244, 119, 33, 0.12);
+        }
+
+        .search-bar button {
+            padding: 0 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .search-bar button:hover {
+            transform: translateY(-1px);
+        }
+
+        /* CATÁLOGO */
+        .catalog {
+            display: grid;
+            grid-template-columns: 245px minmax(0, 1fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .sidebar {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 23px 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .category-btn {
+            width: 100%;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 11px 12px;
+            border-radius: 9px;
+            text-align: left;
+            font-size: 14px;
+            cursor: pointer;
+            color: #50545c;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+
+        .category-btn.active {
+            border-color: #ffdfc9;
+        }
+
+        .catalog-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .catalog-heading h2 {
+            font-size: 23px;
+            letter-spacing: -0.4px;
+        }
+
+        .result-count {
+            color: var(--muted);
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        /* TARJETAS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px;
+            min-width: 0;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-card > img {
+            display: block;
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 11px;
+            background: #f0f1f3;
+        }
+
+        .product-card h3 {
+            margin: 14px 0 9px;
+            font-size: 18px;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .product-card p {
+            margin: 8px 0;
+            color: #50545c;
+            font-size: 13px;
+            line-height: 1.55;
+            overflow-wrap: anywhere;
+        }
+
+        .product-card p strong {
+            color: #30333a;
+        }
+
+        /* BOTÓN ALQUILAR */
+        .rent-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 13px;
+            padding: 12px 16px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .rent-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .product-status.unavailable {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 13px;
+            padding: 10px 14px;
+            background: #f1f1f1;
+            color: #777d87;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ESTADO DEL PRODUCTO */
+        .status-available,
+        .status-occupied {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-available {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .status-occupied {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .status-available::before,
+        .status-occupied::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* SIN RESULTADOS */
+        .empty-message {
+            grid-column: 1 / -1;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 45px 25px;
+            border-radius: 16px;
+            text-align: center;
+            color: var(--muted);
+            line-height: 1.7;
+            box-shadow: var(--shadow);
+        }
+
+        .empty-message strong {
+            display: block;
+            color: var(--text);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        /* PIE DE PÁGINA */
+        footer {
+            margin-top: 55px;
+            padding: 25px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        /* ADAPTACIÓN A PANTALLAS */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 16px 5%;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .container {
+                padding: 32px 5%;
+            }
+
+            .catalog {
+                grid-template-columns: 210px minmax(0, 1fr);
+                gap: 18px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .navbar {
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+                gap: 12px;
+            }
+
+            .catalog {
+                grid-template-columns: 1fr;
+            }
+
+            .category-list {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 13px;
+            }
+
+            .product-card {
+                padding: 11px;
+            }
+
+            .product-card > img {
+                height: 150px;
+            }
+
+            .product-card h3 {
+                font-size: 16px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .search-bar button {
+                padding: 0 17px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card > img {
+                height: 210px;
+            }
+
+            .search-bar {
+                gap: 8px;
+            }
+
+            .search-bar input {
+                padding: 13px 12px;
+                font-size: 14px;
+            }
+
+            .search-bar button {
+                padding: 0 13px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="/" class="logo">Rent<span>Now</span></a>
+
+    <nav class="nav-links">
+        <a href="/">Inicio</a>
+
+        <a href="/api/productos/" class="active">Productos</a>
+
+        {% if request.session.id_usuario %}
+            <a href="/api/publicar-producto/" class="publish-btn">
+                Publicar producto
+            </a>
+
+            <span class="user-profile">
+                <span class="user-icon">👤</span>
+                <span>
+                    {{ request.session.primer_nombre|default:request.session.nombre_usuario }}
+                </span>
+            </span>
+
+            <a href="/api/logout/" class="logout-btn"
+               title="Cerrar sesión" aria-label="Cerrar sesión">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="19" height="19" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M10 17l5-5-5-5"/>
+                    <path d="M15 12H3"/>
+                    <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>
+                </svg>
+                Cerrar sesión
+            </a>
+        {% else %}
+            <a href="/api/registro/">Crear cuenta</a>
+
+            <a href="/api/login/">Iniciar sesión</a>
+
+            <a href="/api/login/" class="publish-btn">
+                Inicia sesión para publicar
+            </a>
+        {% endif %}
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="page-heading">
+        <h1>Encuentra lo que necesitas</h1>
+
+        <p>
+            Explora productos, compara opciones y encuentra lo que necesitas
+            para tu próximo proyecto.
+        </p>
+    </section>
+
+    <form class="search-bar" id="search-form">
+        <input
+            type="search"
+            id="search-input"
+            placeholder="¿Qué producto estás buscando?"
+            aria-label="Buscar productos"
+        >
+
+        <button type="submit">Buscar</button>
+    </form>
+
+    <section class="catalog">
+
+        <aside class="sidebar">
+            <h2>Categorías</h2>
+
+            <div class="category-list">
+                <button type="button" class="category-btn active"
+                        data-category="todas">Todos los productos</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Tecnología">Tecnología</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Herramientas">Herramientas</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Hogar y muebles">Hogar y muebles</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Deportes y aventura">Deportes y aventura</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Vehículos y movilidad">Vehículos y movilidad</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Eventos y fiestas">Eventos y fiestas</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Construcción">Construcción</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Fotografía y video">Fotografía y video</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Instrumentos musicales">Instrumentos musicales</button>
+
+                <button type="button" class="category-btn"
+                        data-category="Otros">Otros</button>
+            </div>
+        </aside>
+
+        <section>
+            <div class="catalog-heading">
+                <h2>Explora los productos</h2>
+                <span class="result-count" id="result-count">
+                    {{ publicaciones|length }} productos
+                </span>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+
+                {% for producto in publicaciones %}
+                    <article class="product-card">
+
+                        {% if producto.imagen %}
+                            <img
+                                src="/media/{{ producto.imagen }}"
+                                alt="{{ producto.titulo }}"
+                                loading="lazy"
+                            >
+                        {% endif %}
+
+                        <h3>{{ producto.titulo }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p><strong>Precio:</strong> ${{ producto.precio_alquiler }}</p>
+                        <p><strong>Ubicación:</strong> {{ producto.ubicacion }}</p>
+                        <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+                        <p><strong>Propietario:</strong> {{ producto.propietario }}</p>
+
+                        <p>
+                            <strong>Estado:</strong>
+
+                            {% if producto.disponibilidad|lower == 'disponible' %}
+                                <span class="status-available">
+                                    Disponible
+                                </span>
+                            {% else %}
+                                <span class="status-occupied">
+                                    Ocupado
+                                </span>
+                            {% endif %}
+                        </p>
+
+                        {% if request.session.id_usuario %}
+                            {% if producto.disponibilidad|lower == 'disponible' %}
+                                <a
+                                    href="{% url 'alquilar_producto' producto.id_publicacion %}"
+                                    class="rent-btn"
+                                >
+                                    Alquilar
+                                </a>
+                            {% else %}
+                                <span class="product-status unavailable">
+                                    No disponible
+                                </span>
+                            {% endif %}
+                        {% else %}
+                            {% if producto.disponibilidad|lower == 'disponible' %}
+                                <a href="/api/login/" class="rent-btn">
+                                    Inicia sesión para alquilar
+                                </a>
+                            {% else %}
+                                <span class="product-status unavailable">
+                                    No disponible
+                                </span>
+                            {% endif %}
+                        {% endif %}
+
+                    </article>
+                {% empty %}
+                    <div class="empty-message">
+                        <strong>Todavía no hay productos publicados</strong>
+                        Sé el primero en publicar un producto en RentNow.
+                    </div>
+                {% endfor %}
+
+            </div>
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 RentNow · Alquila lo que necesitas.
+</footer>
+
+<script>
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    const resultCount = document.getElementById('result-count');
+
+    let selectedCategory = 'todas';
+
+    function filterProducts() {
+        const searchText = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+
+            const category = Array.from(card.querySelectorAll('p'))
+                .find(p => p.textContent.includes('Categoría:'))
+                ?.textContent.replace('Categoría:', '').trim().toLowerCase() || '';
+
+            const matchesSearch = text.includes(searchText);
+
+            const matchesCategory =
+                selectedCategory === 'todas' ||
+                category === selectedCategory.toLowerCase();
+
+            const visible = matchesSearch && matchesCategory;
+
+            card.style.display = visible ? '' : 'none';
+
+            if (visible) {
+                visibleCount++;
+            }
+        });
+
+        resultCount.textContent =
+            `${visibleCount} ${visibleCount === 1 ? 'producto' : 'productos'}`;
+    }
+
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        filterProducts();
+    });
+
+    searchInput.addEventListener('input', filterProducts);
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            categoryButtons.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+
+            selectedCategory = this.dataset.category;
+            filterProducts();
+        });
+    });
+</script>
+
+</body>
+</html>

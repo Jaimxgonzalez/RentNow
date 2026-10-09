@@ -1,0 +1,344 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RentNow | Alquiler de productos</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: white;
+            color: #222;
+        }
+
+        /* =========================
+           BARRA DE NAVEGACIÓN
+        ========================= */
+
+        .navbar {
+            width: 100%;
+            height: 80px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 5%;
+
+            background: white;
+
+            border-bottom: 1px solid #eeeeee;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            z-index: 1000;
+        }
+
+        /* LOGO */
+
+        .logo {
+            text-decoration: none;
+
+            font-size: 34px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            color: #111111;
+
+            margin-right: 65px;
+
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #E67E22;
+        }
+
+        /* =========================
+           MENÚ
+        ========================= */
+
+        .menu {
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            flex: 1;
+        }
+
+        .menu a {
+            text-decoration: none;
+
+            color: #444444;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            padding: 12px 16px;
+
+            border-radius: 8px;
+
+            transition: 0.25s ease;
+
+            white-space: nowrap;
+        }
+
+        .menu a:hover {
+            color: #E67E22;
+
+            background: #FFF5EB;
+        }
+
+        /* =========================
+           BOTÓN INICIAR SESIÓN
+        ========================= */
+
+        .login {
+            border: 1px solid #E67E22;
+
+            color: #E67E22 !important;
+        }
+
+        .login:hover {
+            background: #E67E22 !important;
+
+            color: white !important;
+        }
+
+        /* =========================
+           BOTÓN REGISTRARSE
+        ========================= */
+
+        .registro-btn {
+            background: #E67E22 !important;
+
+            color: white !important;
+        }
+
+        .registro-btn:hover {
+            background: #D35400 !important;
+
+            color: white !important;
+        }
+
+        /* =========================
+           ADMINISTRADOR
+        ========================= */
+
+        .admin-btn {
+            border: 1px solid #dddddd;
+
+            color: #555555 !important;
+
+            margin-left: 8px;
+        }
+
+        .admin-btn:hover {
+            border-color: #E67E22;
+
+            color: #E67E22 !important;
+
+            background: white !important;
+        }
+
+        /* =========================
+           CONTENIDO PRINCIPAL
+        ========================= */
+
+        .principal {
+            width: 100%;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            padding-top: 80px;
+        }
+
+        /* =========================
+           IMAGEN
+        ========================= */
+
+        
+        .imagen {
+            width: 48%;
+            min-height: calc(100vh - 80px);
+
+            background-image: url("{% static 'core/img/inicio.jpg' %}");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1200px) {
+
+            .navbar {
+                padding: 0 3%;
+            }
+
+            .logo {
+                margin-right: 30px;
+            }
+
+            .menu {
+                gap: 8px;
+            }
+
+            .menu a {
+                padding: 10px 11px;
+
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                height: auto;
+
+                min-height: 80px;
+
+                padding: 15px 20px;
+
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                width: 100%;
+
+                margin-right: 0;
+
+                margin-bottom: 12px;
+            }
+
+            .menu {
+                width: 100%;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+                gap: 8px;
+            }
+
+            .principal {
+                padding-top: 150px;
+            }
+
+            .imagen {
+                width: 100%;
+
+                min-height: 300px;
+
+                height: 40vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         BARRA SUPERIOR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <!-- LOGO -->
+
+        <a href="/" class="logo">
+            Rent<span>Now</span>
+        </a>
+
+
+        <!-- MENÚ -->
+
+        <div class="menu">
+
+            <!-- PRODUCTOS -->
+
+            <!-- PRODUCTOS -->
+<a href="/api/productos/">
+    Productos
+</a>
+
+            <!-- MIS ALQUILERES -->
+
+            <a href="#">
+                Mis alquileres
+            </a>
+
+
+            <!-- PUBLICAR PRODUCTO -->
+
+          
+
+
+            <!-- INICIAR SESIÓN -->
+
+            <a href="/api/login/" class="login">
+                Iniciar sesión
+            </a>
+
+
+            <!-- REGISTRARSE -->
+
+            <a href="/api/registro/" class="registro-btn">
+                Registrarse
+            </a>
+
+
+            <!-- ADMINISTRADOR -->
+
+            <a href="/admin/" class="admin-btn">
+                Administrador
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================== -->
+
+    <main class="principal">
+
+        <!-- IMAGEN -->
+
+        <section class="imagen">
+        </section>
+
+    </main>
+
+</body>
+</html>
