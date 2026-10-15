@@ -1,0 +1,18 @@
+Cambios aplicados al repo (copia corregida de RentNow-main)
+
+1. Backend/config/settings.py: SECRET_KEY, DEBUG, ALLOWED_HOSTS y credenciales de MySQL ahora se leen de variables de entorno (python-dotenv, archivo Backend/.env). Se eliminó la contraseña y la SECRET_KEY escritas en el código. Puerto por defecto 3306 (antes 3307 fijo).
+2. Backend/.env.example: nuevo, con valores ficticios.
+3. requirements.txt: nuevo (Django, djangorestframework, mysqlclient, Pillow, python-dotenv). No lo probé instalando; revisa la versión de Django.
+4. Backend/core/views.py: eliminadas las definiciones incompletas duplicadas de login_usuario y publicar_producto; quitado el import "request" que sombreaba el parámetro; quitado un print de depuración.
+5. .gitignore: ahora ignora .env, db.sqlite3, venv, Backend/media/ y __pycache__.
+6. Eliminados del repo: Backend/db.sqlite3, Backend/media/ (3 imágenes de prueba), __pycache__ y Backend/models.py (copia duplicada en UTF-16 de core/models.py).
+
+Pendiente (no tocado): como los modelos son managed=False y core/migrations/ está vacía, el esquema depende de "Base de datos rentnow.sql". La SECRET_KEY y la contraseña de MySQL anteriores estuvieron en el código, así que conviene cambiarlas si el repo ya se subió a GitHub.
+
+
+=== Módulos de Reservas, Pagos y Reseñas ===
+
+Nuevos: Backend/core/{services,pagos,decorators,api,test_runner,views_reservas,views_pagos,views_resenas}.py, Backend/config/settings_test.py, Backend/core/tests/ (67 pruebas), plantillas base.html, _reserva_acciones.html, lista_reservas.html, publicacion_detalle.html, reserva_detalle.html, pagar.html, pago_detalle.html, mis_pagos.html, resena_form.html.
+Modificados: settings.py (es-co, America/Bogota, RENTNOW_*, TEST_RUNNER), .env.example, urls.py, views.py (login respeta ?next=; catálogo con promedio y Prefetch), serializers.py, admin.py, productos.html, README.md.
+Eliminado: core/tests.py (vacío; ahora es un paquete).
+Sin cambios de esquema: no hizo falta "Base de datos rentnow - cambios.sql".

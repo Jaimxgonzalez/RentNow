@@ -1,0 +1,488 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar producto | RentNow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #252525;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 18px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            color: #f47721;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header a.back {
+            color: #444;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .intro {
+            margin-bottom: 25px;
+        }
+
+        .intro h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .intro p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d8dce2;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f47721;
+            box-shadow: 0 0 0 3px rgba(244, 119, 33, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .help-text {
+            color: #777;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .image-box {
+            padding: 20px;
+            border: 2px dashed #d8dce2;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .image-box input {
+            border: none;
+            padding: 8px 0 0;
+            background: transparent;
+        }
+
+        .preview-container {
+            display: none;
+            position: relative;
+            width: fit-content;
+            max-width: 100%;
+            margin-top: 15px;
+        }
+
+        .preview {
+            display: none;
+            max-width: 100%;
+            max-height: 260px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        /* NUEVO: botón para eliminar la imagen seleccionada */
+        .delete-image-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: #d92d20;
+            border: 1px solid #f0c5c2;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+            cursor: pointer;
+        }
+
+        .delete-image-btn:hover {
+            background: #fee4e2;
+        }
+
+        .delete-image-btn svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: #f0f1f3;
+            color: #333;
+        }
+
+        .btn-submit {
+            background: #f47721;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #dc6415;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #fff3e8;
+            color: #8b4311;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            main {
+                margin: 25px auto;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a class="logo" href="/">RentNow</a>
+        <a class="back" href="/api/productos/">← Volver a productos</a>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h1>Publica tu producto</h1>
+            <p>
+                Comparte lo que tienes disponible y permite que otras personas
+                lo alquilen por el tiempo que necesiten.
+            </p>
+        </section>
+
+        <section class="form-container">
+
+            {% if error %}
+                <div class="message">{{ error }}</div>
+            {% endif %}
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form
+                action="/api/publicar-producto/"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="field full-width">
+                        <label for="titulo">Nombre del producto *</label>
+                        <input
+                            type="text"
+                            id="titulo"
+                            name="titulo"
+                            maxlength="150"
+                            placeholder="Ej. Taladro inalámbrico"
+                            required
+                        >
+                    </div>
+
+                    <div class="field full-width">
+                        <label for="descripcion">Descripción *</label>
+                        <textarea
+                            id="descripcion"
+                            name="descripcion"
+                            placeholder="Describe el estado, las características y las condiciones de alquiler."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="field full-width">
+                        <label for="imagen">Fotografía del producto *</label>
+                        <div class="image-box">
+                            <p>Selecciona una imagen desde tu dispositivo.</p>
+                            <input
+                                type="file"
+                                id="imagen"
+                                name="imagen"
+                                accept="image/jpeg,image/png,image/webp"
+                                required
+                            >
+                            <p class="help-text">
+                                Formatos permitidos: JPG, PNG y WEBP.
+                            </p>
+
+                            <!-- Vista previa y papelera agregadas -->
+                            <div id="preview-container" class="preview-container">
+                                <img
+                                    id="preview"
+                                    class="preview"
+                                    alt="Vista previa de la fotografía"
+                                >
+
+                                <button
+                                    type="button"
+                                    id="delete-image-btn"
+                                    class="delete-image-btn"
+                                    title="Eliminar imagen"
+                                    aria-label="Eliminar imagen seleccionada"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M3 6h18"/>
+                                        <path d="M8 6V4h8v2"/>
+                                        <path d="M19 6l-1 14H6L5 6"/>
+                                        <path d="M10 11v5"/>
+                                        <path d="M14 11v5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="precio_alquiler">
+                            Precio por hora (COP) *
+                        </label>
+                        <input
+                            type="number"
+                            id="precio_alquiler"
+                            name="precio_alquiler"
+                            min="0.01"
+                            step="0.01"
+                            placeholder="Ej. 15000"
+                            required
+                        >
+                        <p class="help-text">
+                            Indica cuánto cuesta alquilar el producto durante una hora.
+                        </p>
+                    </div>
+
+                    <div class="field">
+                        <label for="id_categoria">Categoría *</label>
+                        <select id="id_categoria" name="id_categoria" required>
+                            <option value="">Selecciona una categoría</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id_categoria }}">
+                                    {{ categoria.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="field full-width">
+                        <label for="ubicacion">Ubicación del producto *</label>
+                        <input
+                            type="text"
+                            id="ubicacion"
+                            name="ubicacion"
+                            maxlength="255"
+                            placeholder="Ej. Riohacha, La Guajira"
+                            required
+                        >
+                        <p class="help-text">
+                            Indica dónde se encuentra el producto para coordinar la entrega.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="actions">
+                    <a href="/api/productos/" class="btn btn-cancel">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-submit">
+                        Publicar producto
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const inputImagen = document.getElementById("imagen");
+        const preview = document.getElementById("preview");
+        const previewContainer = document.getElementById("preview-container");
+        const deleteImageBtn = document.getElementById("delete-image-btn");
+
+        inputImagen.addEventListener("change", function () {
+            const archivo = this.files[0];
+
+            if (!archivo) {
+                limpiarVistaPrevia();
+                return;
+            }
+
+            const tiposPermitidos = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            if (!tiposPermitidos.includes(archivo.type)) {
+                alert("Selecciona una imagen JPG, PNG o WEBP.");
+                this.value = "";
+                limpiarVistaPrevia();
+                return;
+            }
+
+            if (archivo.size > 5 * 1024 * 1024) {
+                alert("La imagen no puede superar los 5 MB.");
+                this.value = "";
+                limpiarVistaPrevia();
+                return;
+            }
+
+            const lector = new FileReader();
+
+            lector.onload = function (evento) {
+                preview.src = evento.target.result;
+                preview.style.display = "block";
+                previewContainer.style.display = "inline-block";
+            };
+
+            lector.onerror = function () {
+                alert("No se pudo cargar la vista previa de la imagen.");
+                inputImagen.value = "";
+                limpiarVistaPrevia();
+            };
+
+            lector.readAsDataURL(archivo);
+        });
+
+        // Al pulsar la papelera, elimina la selección actual.
+        deleteImageBtn.addEventListener("click", function () {
+            inputImagen.value = "";
+            limpiarVistaPrevia();
+        });
+
+        function limpiarVistaPrevia() {
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+            previewContainer.style.display = "none";
+        }
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿.env
 .env.*
 !.env.example
@@ -11,3 +12,11 @@ __pycache__/
 node_modules/
 **/node_modules/
 .pytest_cache/
+=======
+
+# Python cache
+__pycache__/
+*.pyc
+>>>>>>> 5445a07c739e4877845ed04673c2df136c0d16a8
+
+backend/.env

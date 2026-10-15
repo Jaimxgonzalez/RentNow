@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta | RentNow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f7f8fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 520px;
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .logo span {
+            color: #f28c28;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 25px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .campo {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 7px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5d9df;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            border-color: #f28c28;
+            box-shadow: 0 0 0 2px rgba(242, 140, 40, 0.12);
+        }
+
+        .boton {
+            width: 100%;
+            padding: 14px;
+            background: #f28c28;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .boton:hover {
+            background: #df7918;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #b42318;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .enlace {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .enlace a {
+            color: #e77d19;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .enlace a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="contenedor">
+
+        <div class="logo">Rent<span>Now</span></div>
+
+        <h1>Crear una cuenta</h1>
+
+        <p class="descripcion">
+            Regístrate para alquilar y publicar productos.
+        </p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="campo">
+                <label for="nombre">Nombre completo</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    maxlength="150"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="correo">Correo electrónico</label>
+                <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    maxlength="150"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="telefono">Teléfono</label>
+                <input
+                    type="tel"
+                    id="telefono"
+                    name="telefono"
+                    maxlength="20"
+                    autocomplete="tel"
+                >
+            </div>
+
+            <div class="campo">
+                <label for="tipo_documento">Tipo de documento</label>
+                <select id="tipo_documento" name="tipo_documento" required>
+                    <option value="">Selecciona tu documento</option>
+                    <option value="CC">Cédula de ciudadanía</option>
+                    <option value="CE">Cédula de extranjería</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="TI">Tarjeta de identidad</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="numero_documento">Número de documento</label>
+                <input
+                    type="text"
+                    id="numero_documento"
+                    name="numero_documento"
+                    maxlength="30"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="contrasena">Contraseña</label>
+                <input
+                    type="password"
+                    id="contrasena"
+                    name="contrasena"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="confirmar_contrasena">Confirmar contraseña</label>
+                <input
+                    type="password"
+                    id="confirmar_contrasena"
+                    name="confirmar_contrasena"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="boton">
+                Crear cuenta
+            </button>
+        </form>
+
+        <p class="enlace">
+            ¿Ya tienes una cuenta?
+            <a href="/api/login/">Inicia sesión</a>
+        </p>
+
+        <p class="enlace">
+            <a href="/">Volver al inicio</a>
+        </p>
+
+    </main>
+
+</body>
+</html>

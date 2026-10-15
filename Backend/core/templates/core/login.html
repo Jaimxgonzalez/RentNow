@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión | RentNow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f7f8fa;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 430px;
+            padding: 38px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 34px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #222222;
+        }
+
+        .logo span {
+            color: #f28c28;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 10px;
+            color: #222222;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #777777;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d5d9df;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #f28c28;
+            box-shadow: 0 0 0 2px rgba(242, 140, 40, 0.12);
+        }
+
+        .boton {
+            width: 100%;
+            padding: 14px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 7px;
+            background: #f28c28;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .boton:hover {
+            background: #df7918;
+        }
+
+        .error {
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 7px;
+            background: #fff0f0;
+            color: #b42318;
+            font-size: 14px;
+        }
+
+        .enlace {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .enlace a {
+            color: #e77d19;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .enlace a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="contenedor">
+
+        <div class="logo">Rent<span>Now</span></div>
+
+        <h1>Bienvenido de nuevo</h1>
+
+        <p class="descripcion">
+            Inicia sesión para alquilar productos o gestionar tus publicaciones.
+        </p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="campo">
+                <label for="correo">Correo electrónico</label>
+                <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="contrasena">Contraseña</label>
+                <input
+                    type="password"
+                    id="contrasena"
+                    name="contrasena"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="boton">
+                Iniciar sesión
+            </button>
+        </form>
+
+        <p class="enlace">
+            ¿Todavía no tienes una cuenta?
+            <a href="/api/registro/">Regístrate</a>
+        </p>
+
+        <p class="enlace">
+            <a href="/">Volver al inicio</a>
+        </p>
+
+    </main>
+
+</body>
+</html>
