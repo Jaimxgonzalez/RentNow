@@ -151,7 +151,8 @@ El proyecto se gestiona con Scrumban.
 
 
 
-- 
+- Diagrama de despliegue :[diagrama.de.despliegueee.pdf](https://github.com/user-attachments/files/33896114/diagrama.de.despliegueee.pdf)
+
 - 
 
 
