@@ -34,6 +34,7 @@ export class LoginComponent {
       this.router.navigate(['/productos']); 
     },
     error: (err) => {
+      console.error('Error detallado del login:', err); // <-- Añade esto
       this.errorMessage = 'Usuario o contraseña incorrectos.';
     }
   });
