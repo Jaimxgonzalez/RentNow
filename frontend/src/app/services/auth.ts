@@ -12,10 +12,9 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Método para iniciar sesión
-  login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login/`, credentials);
-  }
-
+  login(credentials: { correo: string, contrasena: string }) {
+  return this.http.post('http://127.0.0.1:8000/api/login/', credentials);
+}
   // Guardar el token en el almacenamiento local
   saveToken(token: string): void {
     localStorage.setItem('auth_token', token);

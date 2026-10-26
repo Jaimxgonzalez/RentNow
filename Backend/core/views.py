@@ -1,4 +1,7 @@
-
+import json
+from django.http import JsonResponse
+from django.contrib.auth.hashers import check_password
+from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from .models import Publicaciones
@@ -94,35 +97,36 @@ def registro(request):
 # ==========================================
 # INICIO DE SESIÓN
 # ==========================================
-
+@api_view(['POST'])
 def login_usuario(request):
-    if request.method == 'POST':
-        correo = request.POST.get('correo', '').strip()
-        contrasena = request.POST.get('contrasena', '')
+    # Procesa la información enviada en formato JSON desde Angular
+    data = request.data if hasattr(request, 'data') else json.loads(request.body)
+    correo = data.get('correo', '').strip()
+    contrasena = data.get('contrasena', '')
 
-        usuario = Usuarios.objects.filter(
-            correo=correo,
-            estado='activo',
-            fecha_eliminacion__isnull=True
-        ).first()
+    # Busca al usuario en la tabla personalizada Usuarios
+    usuario = Usuarios.objects.filter(
+        correo=correo,
+        estado='activo',
+        fecha_eliminacion__isnull=True
+    ).first()
 
-        if usuario and check_password(
-            contrasena, usuario.contrasena
-        ):
-            request.session['id_usuario'] = usuario.id_usuario
-            request.session['nombre_usuario'] = usuario.nombre
-            request.session['primer_nombre'] = (
-                usuario.nombre.strip().split()[0]
-            )
-            request.session['id_rol'] = usuario.id_rol_id
+    # Valida que exista el usuario y que la contraseña sea correcta
+    if usuario and check_password(contrasena, usuario.contrasena):
+        request.session['id_usuario'] = usuario.id_usuario
+        request.session['nombre_usuario'] = usuario.nombre
+        request.session['primer_nombre'] = usuario.nombre.strip().split()[0]
+        request.session['id_rol'] = usuario.id_rol_id
 
-            return redirect('/api/productos/')
+        return JsonResponse({
+            'mensaje': 'Login exitoso',
+            'redirect': '/api/productos/'
+        }, status=200)
 
-        return render(request, 'core/login.html', {
-            'error': 'Correo o contraseña incorrectos.'
-        })
-
-    return render(request, 'core/login.html')
+    # Si las credenciales no coinciden o no existe el usuario
+    return JsonResponse({
+        'error': 'Correo o contraseña incorrectos.'
+    }, status=400)
 
 
 # ==========================================
